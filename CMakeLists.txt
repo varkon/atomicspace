@@ -1,39 +1,12 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 2.8.12)
 
-file(GLOB_RECURSE HEADERS "*.h")
-file(GLOB SOURCES "*.cpp")
+project(Test)
 
-
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Core)
 
-set(CARLO_DIR /usr/local/ha-sdk)
-list(APPEND SOURCES ../../../common/Qt/ManeuverHelper.cpp)
+add_executable(${PROJECT_NAME} "main.cpp")
 
-set(TARGET_NAME QtGuidanceSample)
-link_directories (${CARLO_DIR}/lib)
-
-add_executable(${TARGET_NAME} ${SOURCES})
-
-find_library(COMMON_LIB_LOCATION libcommon.a)
-
-target_link_libraries(${TARGET_NAME}
-    carlo-navcore
-    carlo-utilities
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-    ${CARLO_DIR}/lib/libcommon.a
-)
-
-target_include_directories(${TARGET_NAME} PRIVATE
-    .
-#    ${CARLO_DIR}/samples/common/Qt
-    ${CARLO_DIR}/include
-    ${CMAKE_BINARY_DIR}
-    ../../../common/Qt
-)
+target_link_libraries(${PROJECT_NAME} Qt5::Core)
